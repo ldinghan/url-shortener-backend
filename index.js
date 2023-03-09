@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect(
-    "mongodb+srv://ldinghan:mongoDB@UrlLinks.0muggcx.mongodb.net/test"
+    "mongodb+srv://ldinghan:mongoDB@urllinks.0muggcx.mongodb.net/?retryWrites=true&w=majority"
 );
 
 app.get("/getShortUrl", async (req, res) => {
