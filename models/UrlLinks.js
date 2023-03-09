@@ -12,3 +12,4 @@ const UrlSchema = new mongoose.Schema({
 });
 
 const UrlModel = mongoose.model("urllinks", UrlSchema);
+module.exports = UrlModel;
