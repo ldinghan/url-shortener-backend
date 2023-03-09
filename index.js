@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const UrlModel = require('./models/UrlLinks');
+require('dotenv').config();
+
 
 const cors = require('cors');
 const { exists } = require('./models/UrlLinks');
@@ -73,6 +75,6 @@ app.get("/:shortUrl", async (req, res) => {
 
 
 
-app.listen(3001, () => {
+app.listen(process.env.PORT || 3001, () => {
     console.log('server is running');
 })
