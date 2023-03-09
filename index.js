@@ -36,18 +36,18 @@ app.post("/shortenUrl", async (req, res) => {
     existingTargetUrl = await UrlModel.exists({targetUrl});
     if (existingTargetUrl == null) {
         counter = 6;
-        str = makeShortUrl(counter);
-        existingShortUrl = await UrlModel.exists({str});
+        shortUrl = makeShortUrl(counter);
+        existingShortUrl = await UrlModel.exists({shortUrl});
         while (existingShortUrl != null) {
             counter++;
-            str = makeShortUrl(counter);
-            existingShortUrl = await UrlModel.exists({str});
+            shortUrl = makeShortUrl(counter);
+            existingShortUrl = await UrlModel.exists({shortUrl});
         }
         
         
         newUrlObj = {
             targetUrl,
-            shortUrl: str
+            shortUrl
         }
 
         const newShortUrl = new UrlModel(newUrlObj);
@@ -57,6 +57,20 @@ app.post("/shortenUrl", async (req, res) => {
 
     res.json(url);
 })
+
+app.get("/:shortUrl", async (req, res) => {
+    const shortUrl = req.params.shortUrl;
+    const existingShortUrl = await UrlModel.exists({shortUrl});
+    if (existingShortUrl == null) {
+        return res.sendStatus(404);
+    }
+    const query = await UrlModel.find({shortUrl}).exec();
+    const targetUrl = query[0].targetUrl;
+    res.status(301).redirect(targetUrl);
+})
+
+
+
 
 
 app.listen(3001, () => {
